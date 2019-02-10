@@ -1,0 +1,19 @@
+{
+  "name": "get-lyrics",
+  "version": "0.0.1",
+  "description": "Get a song's lyrics",
+  "main": "index.js",
+  "scripts": {
+    "test": "test"
+  },
+  "keywords": [
+    "song",
+    "lyrics",
+    "lyric",
+    "music",
+    "paroles",
+    "track"
+  ],
+  "author": "trekiteasy",
+  "license": "MIT"
+}
