@@ -45,9 +45,13 @@ describe('Get lyrics', function () {
             let thisLyrics = lyrics.search('Hindi Zahra', 'Fascination')
             thisLyrics.should.eventually.contain('souvenir').notify(done);;
         });
-        it('should give an error', function (done) {
+        it('should give an error when inexisting artist', function (done) {
             let thisLyrics = lyrics.search('Inexisting Artist for test purpose', 'Inexisting track for test purpose')
             thisLyrics.should.eventually.be.rejected.notify(done);;
+        });
+        it('should give an error when the lyrics are not ok', function (done) {
+            let thisLyrics = lyrics.getLyricsText({ url: 'http://lyrics.wikia.com/wiki/Hindi_Zahra:At_The_Same_Time', selector: '.lyricbox', rejectionTexts: ["Unfortunately, we are not licensed to display the full lyrics "] });
+            thisLyrics.should.eventually.be.rejected.notify(done);
         });
     });
 });

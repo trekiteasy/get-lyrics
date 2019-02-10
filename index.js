@@ -49,11 +49,25 @@ function selectLyrics (html, selector) {
     return cleanText(html(selector));
 }
 
+function filterErrorText (text, source) {
+    if (source.rejectionTexts) {
+        for (var i in source.rejectionTexts) {
+            if (text.search(source.rejectionTexts[i]) > -1) {
+                let error = new Error('These lyrics are not valid');
+                error.response = text;
+                return Promise.reject(error)
+            }
+        }
+    }
+    return Promise.resolve(text)
+}
+
 function getLyricsText (source) {
     let url = source.url;
     let selector = source.selector;
     return getHtml(url)
         .then((html) => selectLyrics(html, selector))
+        .then(text => filterErrorText(text, source))
         .catch(function (err) {
             let error = new Error('Unable to get the lyrics with ' + source.identifier);
             error.response = err;
@@ -72,7 +86,8 @@ function getSources (artistName, trackName) {
     const sourceWikia = {
         identifier: 'wikia.com',
         url: 'http://lyrics.wikia.com/wiki/' + encodeURIComponent(artistName) + ':' + encodeURIComponent(trackName),
-        selector: '.lyricbox'
+        selector: '.lyricbox',
+        rejectionTexts: ["Unfortunately, we are not licensed to display the full lyrics "]
     }
 
     const lyricsManiaUrl = (title) => {
