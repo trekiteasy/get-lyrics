@@ -23,5 +23,14 @@ lyrics.search('Hindi Zahra', 'Fascination')
  * /
 ```
 
+the response object will be with the following format :
+```
+{
+    lyrics, // Contains the lyrics in a text format
+    provider, // Contains an identifier of the source
+    url // Contains a link to the lyrics
+}
+```
+
 ## Why
 I tried a couple of packages before creating this one. Most were outdated. Some needed API keys or iTunes user names. Some other were doing 10 other things that I did not need. So here it is, it just gets some lyrics, with some fallback capabilities. 

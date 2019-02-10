@@ -9,7 +9,6 @@ describe('Sources', function () {
     describe('Sources is an Array', function () {
         it('should be an array', function () {
             lyrics.getSources('artist', 'track').should.be.an('array');
-
         });
     });
 });
@@ -24,9 +23,9 @@ describe('Fetch url', function () {
 
 describe('Get lyrics', function () {
     describe('Looking for Break up with your girlfriend from Ariana Grande', function () {
-        it('should contain the word girlfriend', function (done) {
+        it('should be found', function (done) {
             let thisLyrics = lyrics.getLyricsText({ url: 'http://lyrics.wikia.com/wiki/Ariana_Grande:Break_Up_With_Your_Girlfriend,_I%27m_Bored', selector: '.lyricbox' })
-            thisLyrics.should.eventually.have.string('girlfriend').notify(done);;
+            thisLyrics.should.eventually.have.property('lyrics').notify(done);;
         });
     });
 
@@ -43,7 +42,7 @@ describe('Get lyrics', function () {
     describe('Search', function () {
         it('should get a result', function (done) {
             let thisLyrics = lyrics.search('Hindi Zahra', 'Fascination')
-            thisLyrics.should.eventually.contain('souvenir').notify(done);;
+            thisLyrics.should.eventually.have.property('lyrics').notify(done);;
         });
         it('should give an error when inexisting artist', function (done) {
             let thisLyrics = lyrics.search('Inexisting Artist for test purpose', 'Inexisting track for test purpose')

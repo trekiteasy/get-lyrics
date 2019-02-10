@@ -62,12 +62,21 @@ function filterErrorText (text, source) {
     return Promise.resolve(text)
 }
 
+function lyricsObject (source, text) {
+    return {
+        lyrics: text,
+        provider: source.identifier,
+        url: source.url
+    }
+}
+
 function getLyricsText (source) {
     let url = source.url;
     let selector = source.selector;
     return getHtml(url)
         .then((html) => selectLyrics(html, selector))
         .then(text => filterErrorText(text, source))
+        .then(text => lyricsObject(source, text))
         .catch(function (err) {
             let error = new Error('Unable to get the lyrics with ' + source.identifier);
             error.response = err;

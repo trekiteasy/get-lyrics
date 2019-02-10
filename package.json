@@ -1,6 +1,6 @@
 {
   "name": "simple-get-lyrics",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Get a song's lyrics",
   "main": "index.js",
   "scripts": {
