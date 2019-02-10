@@ -1,11 +1,11 @@
-# get-lyrics - Get lyrics in your apps
+# simple-get-lyrics - Get lyrics in your apps
 
-**get-lyrics** allows you to get lyrics from a song in your app.
+**simple-get-lyrics** allows you to get lyrics from a song in your app.
 
 ## How to install
 
 ```
-npm install get-lyrics --save
+npm install simple-get-lyrics --save
 ```
 
 ## How to use
@@ -14,7 +14,7 @@ Simple code :
 
 Full code :
 ```javascript
-include * as lyrics from 'get-lyrics'
+include * as lyrics from 'simple-get-lyrics'
 
 lyrics.search('Hindi Zahra', 'Fascination')
 /**

@@ -1,5 +1,5 @@
 {
-  "name": "get-lyrics",
+  "name": "simple-get-lyrics",
   "version": "0.0.1",
   "description": "Get a song's lyrics",
   "main": "index.js",
