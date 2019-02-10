@@ -16,7 +16,7 @@ Full code :
 ```javascript
 include * as lyrics from 'get-lyrics'
 
-lyrics.search('Hindi Zahra', 'Fascination)
+lyrics.search('Hindi Zahra', 'Fascination')
 /**
  * This will return a Promise which will resolve in :
  * "One of these days you know [...]"
