@@ -22,11 +22,20 @@ describe('Fetch url', function () {
 });
 
 describe('Get lyrics', function () {
-    describe('Looking for Break up with your girlfriend from Ariana Grande', function () {
-        it('should be found', function (done) {
+    describe('Looking for lyrics', function () {
+        it('on wikia should be found', function (done) {
             let thisLyrics = lyrics.getLyricsText({ url: 'http://lyrics.wikia.com/wiki/Ariana_Grande:Break_Up_With_Your_Girlfriend,_I%27m_Bored', selector: '.lyricbox' })
             thisLyrics.should.eventually.have.property('lyrics').notify(done);;
         });
+        it('on lyricsmania should be found', function (done) {
+            let thisLyrics = lyrics.getLyricsText({ url: 'https://www.lyricsmania.com/523_lyrics_earl_sweatshirt.html', selector: '.lyrics-body' })
+            thisLyrics.then(l => {
+                console.log(l);
+                thisLyrics.should.eventually.have.property('lyrics').notify(done);;
+            })
+        });
+
+
     });
 
     describe('Get pages', function () {

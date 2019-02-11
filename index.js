@@ -7,7 +7,7 @@ const fetch = require('node-fetch')
 
 const cleanText = (cheerioHtml) => {
     cheerioHtml.find('br').replaceWith('\n');
-    cheerioHtml = groupReplaceWith(cheerioHtml, ['img', 'h2', 'script', '#video-musictory', 'strong'], '')
+    cheerioHtml = groupReplaceWith(cheerioHtml, ['#video-musictory', 'img', 'h2', 'script', 'strong'], '')
     cheerioHtml = _.trim(cheerioHtml.text());
     cheerioHtml = cheerioHtml.replace(/\r\n\n/g, '\n');
     cheerioHtml = cheerioHtml.replace(/\t/g, '');
@@ -19,7 +19,7 @@ const cleanText = (cheerioHtml) => {
 
 function groupReplaceWith (source, arr, replacement) {
     for (let i in arr) {
-        source.find(arr[i], replacement)
+        source.find(arr[i]).replaceWith(replacement)
     }
     return source
 }

@@ -1,6 +1,6 @@
 {
   "name": "simple-get-lyrics",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Get a song's lyrics",
   "main": "index.js",
   "scripts": {
@@ -14,7 +14,10 @@
     "paroles",
     "track"
   ],
-  "git": "https://github.com/trekiteasy/get-lyrics",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/trekiteasy/get-lyrics.git"
+  },
   "author": "trekiteasy",
   "license": "MIT",
   "dependencies": {
