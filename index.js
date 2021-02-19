@@ -92,13 +92,6 @@ function getSources (artistName, trackName) {
         selector: '.song-text'
     }
 
-    const sourceWikia = {
-        identifier: 'wikia.com',
-        url: 'http://lyrics.wikia.com/wiki/' + encodeURIComponent(artistName) + ':' + encodeURIComponent(trackName),
-        selector: '.lyricbox',
-        rejectionTexts: ["Unfortunately, we are not licensed to display the full lyrics "]
-    }
-
     const lyricsManiaUrl = (title) => {
         return _.snakeCase(_.trim(_.toLower(_.deburr(title))));
     };
@@ -109,7 +102,13 @@ function getSources (artistName, trackName) {
         selector: '.lyrics-body'
     }
 
-    return [sourceParolesNet, sourceWikia, sourceLyricsMania]
+    const sourceMusixMatch = {
+        identifier: 'musixmatch.com',
+        url: 'https://www.musixmatch.com/lyrics/'+ lyricsUrl(artistName) + '/' + lyricsUrl(trackName),
+        selector: '.lyrics__content__ok'
+    }
+
+    return [sourceParolesNet, sourceLyricsMania, sourceMusixMatch]
 }
 
 function search (artistName, trackName) {
