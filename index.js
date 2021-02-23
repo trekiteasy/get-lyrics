@@ -1,21 +1,21 @@
-'use strict';
-const cheerio = require('cheerio');
-const _ = require('lodash');
-const Promise = require('bluebird');
+'use strict'
+const cheerio = require('cheerio')
+const _ = require('lodash')
+const Promise = require('bluebird')
 const fetch = require('node-fetch')
 
 
 const cleanText = (cheerioHtml) => {
-    cheerioHtml.find('br').replaceWith('\n');
+    cheerioHtml.find('br').replaceWith('\n')
     cheerioHtml = groupReplaceWith(cheerioHtml, ['#video-musictory', 'img', 'h2', 'script', 'strong'], '')
-    cheerioHtml = _.trim(cheerioHtml.text());
-    cheerioHtml = cheerioHtml.replace(/\r\n\n/g, '\n');
-    cheerioHtml = cheerioHtml.replace(/\t/g, '');
-    cheerioHtml = cheerioHtml.replace(/\n\r\n/g, '\n');
-    cheerioHtml = cheerioHtml.replace(/ +/g, ' ');
-    cheerioHtml = cheerioHtml.replace(/\n /g, '\n');
-    return cheerioHtml;
-};
+    cheerioHtml = _.trim(cheerioHtml.text())
+    cheerioHtml = cheerioHtml.replace(/\r\n\n/g, '\n')
+    cheerioHtml = cheerioHtml.replace(/\t/g, '')
+    cheerioHtml = cheerioHtml.replace(/\n\r\n/g, '\n')
+    cheerioHtml = cheerioHtml.replace(/ +/g, ' ')
+    cheerioHtml = cheerioHtml.replace(/\n /g, '\n')
+    return cheerioHtml
+}
 
 function groupReplaceWith (source, arr, replacement) {
     for (let i in arr) {
@@ -26,11 +26,11 @@ function groupReplaceWith (source, arr, replacement) {
 
 function checkStatus (response) {
     if (response.status !== 200 || !response.ok) {
-        let error = new Error(response.statusText);
-        error.response = response;
-        return Promise.reject(error);
+        let error = new Error(response.statusText)
+        error.response = response
+        return Promise.reject(error)
     }
-    return Promise.resolve(response);
+    return Promise.resolve(response)
 }
 
 function getHtml (url) {
@@ -42,19 +42,19 @@ function getHtml (url) {
 
 function selectLyrics (html, selector) {
     if (html(selector).length === 0) {
-        let error = new Error('No text was found');
-        error.response = html;
-        return Promise.reject(error);
+        let error = new Error('No text was found')
+        error.response = html
+        return Promise.reject(error)
     }
-    return cleanText(html(selector));
+    return cleanText(html(selector))
 }
 
 function filterErrorText (text, source) {
     if (source.rejectionTexts) {
         for (var i in source.rejectionTexts) {
             if (text.search(source.rejectionTexts[i]) > -1) {
-                let error = new Error('These lyrics are not valid');
-                error.response = text;
+                let error = new Error('These lyrics are not valid')
+                error.response = text
                 return Promise.reject(error)
             }
         }
@@ -71,17 +71,17 @@ function lyricsObject (source, text) {
 }
 
 function getLyricsText (source) {
-    let url = source.url;
-    let selector = source.selector;
+    let url = source.url
+    let selector = source.selector
     return getHtml(url)
         .then((html) => selectLyrics(html, selector))
         .then(text => filterErrorText(text, source))
         .then(text => lyricsObject(source, text))
         .catch(function (err) {
-            let error = new Error('Unable to get the lyrics with ' + source.identifier);
-            error.response = err;
-            return Promise.reject(error);
-        });
+            let error = new Error('Unable to get the lyrics with ' + source.identifier)
+            error.response = err
+            return Promise.reject(error)
+        })
 }
 
 function getSources (artistName, trackName) {
@@ -92,16 +92,9 @@ function getSources (artistName, trackName) {
         selector: '.song-text'
     }
 
-    const sourceWikia = {
-        identifier: 'wikia.com',
-        url: 'http://lyrics.wikia.com/wiki/' + encodeURIComponent(artistName) + ':' + encodeURIComponent(trackName),
-        selector: '.lyricbox',
-        rejectionTexts: ["Unfortunately, we are not licensed to display the full lyrics "]
-    }
-
     const lyricsManiaUrl = (title) => {
-        return _.snakeCase(_.trim(_.toLower(_.deburr(title))));
-    };
+        return _.snakeCase(_.trim(_.toLower(_.deburr(title))))
+    }
 
     const sourceLyricsMania = {
         identifier: 'lyricsmania.com',
@@ -109,7 +102,7 @@ function getSources (artistName, trackName) {
         selector: '.lyrics-body'
     }
 
-    return [sourceParolesNet, sourceWikia, sourceLyricsMania]
+    return [sourceParolesNet, sourceLyricsMania]
 }
 
 function search (artistName, trackName) {
@@ -117,7 +110,7 @@ function search (artistName, trackName) {
     return Promise.any(sources.map(source => getLyricsText(source)))
         .catch(Promise.AggregateError, function (err) {
             return Promise.reject(err)
-        });
+        })
 }
 
 module.exports = {
